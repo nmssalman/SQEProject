@@ -1,4 +1,6 @@
-﻿using SQE.IRepository;
+﻿using Microsoft.EntityFrameworkCore;
+using SQE.Data;
+using SQE.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +11,22 @@ namespace SQE.Repository
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        public Task Delete(int id)
+        private readonly DatabaseContext _context;
+        private readonly DbSet<T> _db;
+        public GenericRepository(DatabaseContext context)
         {
-            throw new NotImplementedException();
+            this._context = context;
+            _db = _context.Set<T>();
+        }
+        public async Task Delete(int id)
+        {
+            var entity = await _db.FindAsync(id);
+            _db.Remove(entity);
         }
 
-        public Task<T> DeleteRage(IEnumerable<T> entities)
+        public void DeleteRage(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            _db.RemoveRange(entities);
         }
 
         public Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
@@ -29,19 +39,20 @@ namespace SQE.Repository
             throw new NotImplementedException();
         }
 
-        public Task<T> Insert(T entity)
+        public async Task Insert(T entity)
         {
-            throw new NotImplementedException();
+            await _db.AddAsync(entity);
         }
 
-        public Task<T> InsertRage(IEnumerable<T> entities)
+        public async Task InsertRage(IEnumerable<T> entities)
         {
-            throw new NotImplementedException();
+            await _db.AddRangeAsync(entities);
         }
 
-        public Task<T> Update(T entity)
+        public void Update(T entity)
         {
-            throw new NotImplementedException(); 
+            _db.Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

@@ -16,11 +16,11 @@ namespace SQE.IRepository
             List<string> includes = null
             );
         Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null);
-        Task<T> Insert(T entity);
-        Task<T> InsertRage(IEnumerable<T> entities);
+        Task Insert(T entity);
+        Task InsertRage(IEnumerable<T> entities);
         Task Delete(int id);
-        Task<T> DeleteRage(IEnumerable<T> entities);
-        Task<T> Update(T entity);
+        void DeleteRage(IEnumerable<T> entities);
+        void Update(T entity);
 
     }
 }

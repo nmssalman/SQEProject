@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SQE.Configuration;
 
 namespace SQE
 {
@@ -38,6 +39,8 @@ namespace SQE
                 .AllowAnyMethod().
                 AllowAnyHeader());
             });
+            services.AddAutoMapper(typeof(MapperInitilizer));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQE", Version = "v1" });

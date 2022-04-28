@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SQE.Models;
 
 namespace SQE.Data
 {
@@ -8,5 +9,6 @@ namespace SQE.Data
         {
 
         }
+        public DbSet<UserDOT> userDOTs { get; set; }
     }
 }
