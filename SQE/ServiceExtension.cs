@@ -10,7 +10,7 @@ namespace SQE
         {
             var builder = services.AddIdentityCore<ApiUser>(q => q.User.RequireUniqueEmail = true);
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), services);
-            //builder.AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
+            builder.AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
 ;        }
     }
 }

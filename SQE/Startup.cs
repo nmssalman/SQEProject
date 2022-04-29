@@ -14,6 +14,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SQE.Configuration;
+using SQE.Repository;
+using SQE.IRepository;
+using Microsoft.AspNetCore.Identity;
 
 namespace SQE
 {
@@ -31,7 +34,12 @@ namespace SQE
         {
 
             services.AddDbContext<DatabaseContext>(option =>
-            option.UseSqlServer(Configuration.GetConnectionString("SQLConnectio")));
+            option.UseMySQL(Configuration.GetConnectionString("MySQLConnection")));
+            //option.UseSqlServer(Configuration.GetConnectionString("SQLConnectio")));
+            services.AddIdentity<ApiUser, IdentityRole>();
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+
             services.AddCors(o =>
             {
                 o.AddPolicy("AllowAll", builder =>
@@ -40,12 +48,14 @@ namespace SQE
                 AllowAnyHeader());
             });
             services.AddAutoMapper(typeof(MapperInitilizer));
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SQE", Version = "v1" });
             });
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(option => 
+                         option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                 );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

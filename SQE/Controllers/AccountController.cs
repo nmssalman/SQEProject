@@ -38,11 +38,17 @@ namespace SQE.Controllers
             try
             {
                 var user = _mapper.Map<ApiUser>(userDOT);
-                var result = await _userManager.CreateAsync(user);
+                user.UserName = userDOT.Email;
+                var result = await _userManager.CreateAsync(user,userDOT.Password);
                 if (!result.Succeeded)
                 {
-                    return BadRequest($"User Registration Attepmt Failed");
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError(item.Code, item.Description);
+                    }
+                    return BadRequest(ModelState);
                 }
+                await _userManager.AddToRolesAsync(user, userDOT.Roles);
                 return Accepted();
             }
             catch (Exception ex)
