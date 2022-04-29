@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SQE.Data;
 using SQE.Models;
+using SQE.Services;
 using System;
 using System.Threading.Tasks;
 
@@ -15,16 +16,23 @@ namespace SQE.Controllers
     public class AccountController : ControllerBase
     {
         public readonly UserManager<ApiUser> _userManager;
-        public readonly SignInManager<ApiUser> _signInManager;
+        //public readonly SignInManager<ApiUser> _signInManager;
         public readonly ILogger<AccountController> _logger;
         public readonly IMapper _mapper;
+        public readonly IAuthManager _authManager;
 
-        public AccountController(UserManager<ApiUser> userManager, SignInManager<ApiUser> signInManager, ILogger<AccountController> logger, IMapper mapper)
+        public AccountController(
+            UserManager<ApiUser> userManager, 
+            //SignInManager<ApiUser> signInManager, 
+            ILogger<AccountController> logger, 
+            IMapper mapper,
+            IAuthManager authManager)
         {
             this._userManager = userManager;
-            this._signInManager = signInManager;
+            //this._signInManager = signInManager;
             this._mapper = mapper;
             this._logger = logger;
+            this._authManager = authManager;
         }
         [HttpPost]
         [Route("register")]
@@ -68,12 +76,16 @@ namespace SQE.Controllers
             }
             try
             {
-                var result = await _signInManager.PasswordSignInAsync(userDOT.Email,userDOT.Password,false,false);
-                if (!result.Succeeded)
+                //var result = await _signInManager.PasswordSignInAsync(userDOT.Email, userDOT.Password, false, false);
+                //if (!result.Succeeded)
+                //{
+                //    return Unauthorized(userDOT);
+                //}
+                if(!await _authManager.ValidateUser(userDOT))
                 {
-                    return Unauthorized(userDOT);
+                    return Unauthorized();
                 }
-                return Accepted();
+                return Accepted(new { Token = await _authManager.CreateToken() });
 
             }
             catch (Exception ex)
