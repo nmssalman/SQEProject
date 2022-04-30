@@ -20,7 +20,8 @@ namespace SQE
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var JWTSettings = configuration.GetSection("JWT");
-            var Key = Environment.GetEnvironmentVariable("KEY");
+            //var Key = Environment.GetEnvironmentVariable("KEY");
+            var Key = JWTSettings.GetSection("Key").Value;
 
             services.AddAuthentication(o =>
             {
@@ -34,7 +35,7 @@ namespace SQE
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = JWTSettings.GetSection("SQE").Value,
+                    ValidIssuer = JWTSettings.GetSection("Issuer").Value,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key))
                 };
             });

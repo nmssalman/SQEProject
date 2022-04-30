@@ -37,7 +37,7 @@ namespace SQE.Services
             var JWTSettings = _configuration.GetSection("JWT");
             var expire = DateTime.Now.AddMinutes(Convert.ToDouble(JWTSettings.GetSection("LifeTime").Value));
             var token = new JwtSecurityToken(
-                issuer: JWTSettings.GetSection("SQE").Value,
+                issuer: JWTSettings.GetSection("Issuer").Value,
                 claims: claims,
                 expires: expire,
                 signingCredentials: siginigCredencials
@@ -61,7 +61,10 @@ namespace SQE.Services
 
         private SigningCredentials GetSiginigCredencials()
         {
-            var Key = Environment.GetEnvironmentVariable("KEY");
+            var JWTSettings = _configuration.GetSection("JWT");
+            //var Key = Environment.GetEnvironmentVariable("KEY");
+            var Key = JWTSettings.GetSection("Key").Value;
+            //var Key = Environment.GetEnvironmentVariable("KEY");
             var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
 
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
