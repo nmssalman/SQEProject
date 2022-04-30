@@ -8,6 +8,7 @@ namespace SQE.IRepository
     public interface IUnitOfWork : IDisposable
     {
         IGenericRepository<ApiUser> Users { get; }
+        IGenericRepository<PersonalDetails> PersonalDetails { get; }
         Task Save();
     }
 }

@@ -16,6 +16,6 @@ namespace SQE.Data
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new RoleConfiguration());
         }
-        //public DbSet<UserDOT> userDOTs { get; set; }
+        public DbSet<PersonalDetails> PersonalDetails { get; set; }
     }
 }

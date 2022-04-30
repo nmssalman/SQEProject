@@ -18,6 +18,9 @@ using SQE.Repository;
 using SQE.IRepository;
 using Microsoft.AspNetCore.Identity;
 using SQE.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace SQE
 {
@@ -40,6 +43,8 @@ namespace SQE
             //services.AddIdentity<ApiUser, IdentityRole>();
 
             services.AddAuthentication();
+            
+
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
 
@@ -142,7 +147,7 @@ namespace SQE
             app.UseCors("AllowAll");
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -36,6 +36,9 @@ namespace SQE.Controllers
         }
         [HttpPost]
         [Route("register")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] UserDOT userDOT)
         {
             _logger.LogInformation($"Registration Attepmt for {userDOT.Email}");
@@ -59,7 +62,7 @@ namespace SQE.Controllers
                 }
                 await _userManager.AddToRolesAsync(user, userDOT.Roles);
                 //return Accepted();
-                return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Accepted(new { Status = "ok", Message = "Successfully Registered", Code = true });
             }
             catch (Exception ex)
             {

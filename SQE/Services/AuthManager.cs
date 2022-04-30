@@ -38,6 +38,7 @@ namespace SQE.Services
             var expire = DateTime.Now.AddMinutes(Convert.ToDouble(JWTSettings.GetSection("LifeTime").Value));
             var token = new JwtSecurityToken(
                 issuer: JWTSettings.GetSection("Issuer").Value,
+                audience: "https://localhost:44352",
                 claims: claims,
                 expires: expire,
                 signingCredentials: siginigCredencials
@@ -47,6 +48,7 @@ namespace SQE.Services
 
         private async Task<List<Claim>> GetClaims()
         {
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, _user.UserName)

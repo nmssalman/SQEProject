@@ -33,9 +33,12 @@ namespace SQE
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
+                    ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+
                     ValidIssuer = JWTSettings.GetSection("Issuer").Value,
+                    ValidAudience = "https://localhost:44352",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key))
                 };
             });

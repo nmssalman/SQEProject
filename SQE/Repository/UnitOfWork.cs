@@ -9,11 +9,14 @@ namespace SQE.Repository
     {
         private readonly DatabaseContext _context;
         private IGenericRepository<ApiUser> _users;
+        private IGenericRepository<PersonalDetails> _personalDetails;
         public UnitOfWork(DatabaseContext context)
         {
             this._context = context;
         }
         public IGenericRepository<ApiUser> Users => _users ??= new GenericRepository<ApiUser>(_context);
+
+        public IGenericRepository<PersonalDetails> PersonalDetails => _personalDetails ??= new GenericRepository<PersonalDetails>(_context);
 
         public void Dispose()
         {

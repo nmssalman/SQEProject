@@ -9,6 +9,8 @@ namespace SQE.Configuration
         public MapperInitilizer()
         {
             CreateMap<ApiUser, UserDOT>().ReverseMap();
+            CreateMap<PersonalDetails, PersonalDetails>().ReverseMap();
+            CreateMap<PersonalDetails, CreatePersonalDetailsDOT>().ReverseMap();
         }
     }
 }
