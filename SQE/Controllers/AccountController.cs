@@ -54,15 +54,18 @@ namespace SQE.Controllers
                     {
                         ModelState.AddModelError(item.Code, item.Description);
                     }
-                    return BadRequest(ModelState);
+                    //return BadRequest(ModelState);
+                    return BadRequest(new { Status = "ok", Message = ModelState, Code = false });
                 }
                 await _userManager.AddToRolesAsync(user, userDOT.Roles);
-                return Accepted();
+                //return Accepted();
+                return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Register)}");
                 return Problem($"Something went wrong in the {nameof(Register)}", statusCode: 500);
+                //return Problem(new { Status = "ok", Message = $"Something went wrong in the {nameof(Register)}", Code = false });
             }
         }
         [HttpPost]
@@ -83,9 +86,11 @@ namespace SQE.Controllers
                 //}
                 if(!await _authManager.ValidateUser(userDOT))
                 {
-                    return Unauthorized();
+                    //return BadRequest(new { Status = "ok", Message = ModelState, Code = false });
+                    return Unauthorized(new { Status = "ok", Message = "Invalid username or password", Code = false });
                 }
-                return Accepted(new { Token = await _authManager.CreateToken() });
+                //return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true });
 
             }
             catch (Exception ex)
