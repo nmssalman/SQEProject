@@ -49,9 +49,9 @@ namespace SQE.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> createPersonalDetails([FromBody] CreatePersonalDetailsDOT createPersonalDetailsDOT)
         {
-            var username = HttpContext.User.Identity.Name;
-            var _user = await _userManager.FindByNameAsync(username);
-            createPersonalDetailsDOT.ApiUserId = _user.Id;
+            //var username = HttpContext.User.Identity.Name;
+            //var _user = await _userManager.FindByNameAsync(username);
+            //createPersonalDetailsDOT.user_id = _user.Id;
 
 
             _logger.LogInformation($"Create Personal Details Attepmt");

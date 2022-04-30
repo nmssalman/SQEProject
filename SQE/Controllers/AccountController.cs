@@ -92,8 +92,10 @@ namespace SQE.Controllers
                     //return BadRequest(new { Status = "ok", Message = ModelState, Code = false });
                     return Unauthorized(new { Status = "ok", Message = "Invalid username or password", Code = false });
                 }
+                //var username
+                var userID = await _userManager.FindByNameAsync(userDOT.Email);
                 //return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
-                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true });
+                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true, User_Id = userID });
 
             }
             catch (Exception ex)

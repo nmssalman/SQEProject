@@ -45,15 +45,15 @@ namespace SQE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d1b5d901-4045-4c8c-bc8d-292c8fb83ae9",
-                            ConcurrencyStamp = "101617bd-c29d-4d8b-9008-bd0b17bc61cf",
+                            Id = "1978ca8a-4ebc-44cb-82ce-ad16033371a5",
+                            ConcurrencyStamp = "49285bc2-51a0-4aff-af9c-57e4fe3f9768",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "438b0f40-5c45-415c-9bc3-8d45f958f605",
-                            ConcurrencyStamp = "0e2a3716-1c54-42a2-a792-0a36909b285a",
+                            Id = "ebeb5661-23bb-4f74-a898-6f5c38629f57",
+                            ConcurrencyStamp = "cefb5235-7115-4d6e-b3a1-9fe75ae71449",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -256,6 +256,12 @@ namespace SQE.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Stackoverflow")
+                        .HasColumnType("text");
+
+                    b.Property<string>("city")
+                        .HasColumnType("text");
+
+                    b.Property<string>("country")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

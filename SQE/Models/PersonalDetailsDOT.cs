@@ -12,6 +12,12 @@ namespace SQE.Models
         [StringLength(maximumLength:500, ErrorMessage = "Address name is too long")]
         public string Address { get; set; }
         [Required]
+        [StringLength(maximumLength: 500, ErrorMessage = "Country name is too long")]
+        public string Country { get; set; }
+        [Required]
+        [StringLength(maximumLength: 500, ErrorMessage = "City name is too long")]
+        public string City { get; set; }
+        [Required]
         public DateTime? DateOfBirth { get; set; }
         [Required]
         [StringLength(maximumLength: 1000, ErrorMessage = "Description is too long")]

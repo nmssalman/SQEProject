@@ -10,6 +10,8 @@ namespace SQE.Data
     {
         public int Id { get; set; }
         public string Address { get; set; }
+        public string country { get; set; }
+        public string city { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string Description { get; set; }
         public string Occupation { get; set; }
