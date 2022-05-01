@@ -58,11 +58,11 @@ namespace SQE.Controllers
                         ModelState.AddModelError(item.Code, item.Description);
                     }
                     //return BadRequest(ModelState);
-                    return BadRequest(new { Status = "ok", Message = ModelState, Code = false });
+                    return BadRequest(new { Status = false, Message = ModelState});
                 }
                 await _userManager.AddToRolesAsync(user, userDOT.Roles);
                 //return Accepted();
-                return Accepted(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Accepted(new { Status = true, Message = "Successfully Registered"});
             }
             catch (Exception ex)
             {
@@ -90,12 +90,12 @@ namespace SQE.Controllers
                 if(!await _authManager.ValidateUser(userDOT))
                 {
                     //return BadRequest(new { Status = "ok", Message = ModelState, Code = false });
-                    return Unauthorized(new { Status = "ok", Message = "Invalid username or password", Code = false });
+                    return Unauthorized(new { Status = false, Message = "Invalid username or password" });
                 }
                 //var username
                 var userID = await _userManager.FindByNameAsync(userDOT.Email);
                 //return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
-                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true, User_Id = userID.Id });
+                return Accepted(new { Token = await _authManager.CreateToken(), Status = true, Message = "Login Success", User_Id = userID.Id });
 
             }
             catch (Exception ex)

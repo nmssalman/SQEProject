@@ -80,14 +80,14 @@ namespace SQE.Controllers
             _logger.LogInformation($"Create Personal Details Attepmt");
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Status = false, Message = ModelState });
             }
             try
             {
                 var user = _mapper.Map<PersonalDetails>(createPersonalDetailsDOT);
                 await _unitOfWork.PersonalDetails.Insert(user);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Registered"});
             }
             catch (Exception ex)
             {
@@ -108,7 +108,7 @@ namespace SQE.Controllers
             _logger.LogInformation($"Create Personal Details Attepmt");
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Status = false, Message = ModelState });
             }
             try
             {
@@ -121,7 +121,7 @@ namespace SQE.Controllers
                 _mapper.Map(updatePersonalDetailsDOT, personalInfor);
                 _unitOfWork.PersonalDetails.Update(personalInfor);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Updated", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Updated" });
             }
             catch (Exception ex)
             {
@@ -139,7 +139,7 @@ namespace SQE.Controllers
             _logger.LogInformation($"Create Personal Details Attepmt");
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Status = false, Message = ModelState }); ;
             }
             try
             {
@@ -153,7 +153,7 @@ namespace SQE.Controllers
                 //_mapper.Map(updatePersonalDetailsDOT, personalInfor);
                 _unitOfWork.PersonalDetails.Update(personalInfor);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Deleted", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Deleted"});
             }
             catch (Exception ex)
             {
@@ -176,7 +176,7 @@ namespace SQE.Controllers
             _logger.LogInformation($"Create Personal Details Attepmt");
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Status = false, Message = ModelState });;
             }
             try
             {
@@ -190,7 +190,7 @@ namespace SQE.Controllers
                 var personalSkils = _mapper.Map<PersonalSkills>(createPersonalSkilsDOT);
                 await _unitOfWork.PersonalSkills.Insert(personalSkils);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Registered" });
             }
             catch (Exception ex)
             {
@@ -215,7 +215,7 @@ namespace SQE.Controllers
                 var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.ApiUserId == User_Id && x.ActiveStatus == true);
                 if (personalDetails == null)
                 {
-                    return BadRequest("Please create personal details first");
+                    return BadRequest(new { Status = false, Message = "Please create personal details first" });
                 }
 
                 var personalInfor = await _unitOfWork.PersonalSkills.Get(s => s.PersonalDetailsId == personalDetails.Id && s.SkilsId == Skil_Id);
@@ -228,7 +228,7 @@ namespace SQE.Controllers
                 //_mapper.Map(updatePersonalDetailsDOT, personalInfor);
                 _unitOfWork.PersonalSkills.Update(personalInfor);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Deleted", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Deleted"});
             }
             catch (Exception ex)
             {

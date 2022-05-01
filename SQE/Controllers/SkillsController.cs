@@ -78,14 +78,14 @@ namespace SQE.Controllers
             _logger.LogInformation($"Create Skils Attepmt");
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new { Status = false, Message = ModelState });
             }
             try
             {
                 var skils = _mapper.Map<Skills>(createSkilsDOT);
                 await _unitOfWork.Skills.Insert(skils);
                 await _unitOfWork.Save();
-                return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
+                return Ok(new { Status = true, Message = "Successfully Registered"});
             }
             catch (Exception ex)
             {
