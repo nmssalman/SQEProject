@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQE.Data
 {
-    public class Skils
+    public class Skills
     {
         public int Id { get; set; }
         public string SkilsName { get; set; }

@@ -166,7 +166,7 @@ namespace SQE.Controllers
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> createPersonalSkils([FromBody] CreatePersonalSkilsDOT createPersonalSkilsDOT)
+        public async Task<IActionResult> createPersonalSkils([FromBody] CreatePersonalSkillsDOT createPersonalSkilsDOT)
         {
             //var username = HttpContext.User.Identity.Name;
             //var _user = await _userManager.FindByNameAsync(username);
@@ -187,8 +187,8 @@ namespace SQE.Controllers
                 }
                 createPersonalSkilsDOT.PersonalDetailsId = personalDetails.Id;
                 createPersonalSkilsDOT.ActiveStatus = true;
-                var personalSkils = _mapper.Map<PersonalSkils>(createPersonalSkilsDOT);
-                await _unitOfWork.PersonalSkils.Insert(personalSkils);
+                var personalSkils = _mapper.Map<PersonalSkills>(createPersonalSkilsDOT);
+                await _unitOfWork.PersonalSkills.Insert(personalSkils);
                 await _unitOfWork.Save();
                 return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
             }
@@ -218,7 +218,7 @@ namespace SQE.Controllers
                     return BadRequest("Please create personal details first");
                 }
 
-                var personalInfor = await _unitOfWork.PersonalSkils.Get(s => s.PersonalDetailsId == personalDetails.Id && s.SkilsId == Skil_Id);
+                var personalInfor = await _unitOfWork.PersonalSkills.Get(s => s.PersonalDetailsId == personalDetails.Id && s.SkilsId == Skil_Id);
                 personalInfor.ActiveStatus = false;
                 if (personalInfor == null)
                 {
@@ -226,7 +226,7 @@ namespace SQE.Controllers
                     return BadRequest("Submited data is invalid");
                 }
                 //_mapper.Map(updatePersonalDetailsDOT, personalInfor);
-                _unitOfWork.PersonalSkils.Update(personalInfor);
+                _unitOfWork.PersonalSkills.Update(personalInfor);
                 await _unitOfWork.Save();
                 return Ok(new { Status = "ok", Message = "Successfully Deleted", Code = true });
             }
@@ -248,9 +248,9 @@ namespace SQE.Controllers
             try
             {
                 var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.ApiUserId == User_Id && x.ActiveStatus == true);
-                var personalskils = await _unitOfWork.PersonalSkils.Get(s => s.PersonalDetailsId == personalDetails.Id && s.ActiveStatus == true, new List<string> { "Skilss" });
+                var personalskils = await _unitOfWork.PersonalSkills.Get(s => s.PersonalDetailsId == personalDetails.Id && s.ActiveStatus == true, new List<string> { "Skilss" });
 
-                var result = _mapper.Map<PersonalSkilsDOT>(personalskils);
+                var result = _mapper.Map<PersonalSkillsDOT>(personalskils);
                 return Ok(result);
             }
             catch (Exception ex)

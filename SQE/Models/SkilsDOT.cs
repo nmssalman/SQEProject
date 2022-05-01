@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQE.Models
 {
-    public class CreateSkilsDOT
+    public class CreateSkillsDOT
     {
         [Required]
         [StringLength(maximumLength: 500, ErrorMessage = "Address name is too long")]
@@ -15,7 +15,7 @@ namespace SQE.Models
         [Required]
         public string ApiUserId { get; set; }
     }
-    public class SkilsDOT: CreateSkilsDOT
+    public class SkillsDOT: CreateSkillsDOT
     {
         public int Id { get; set; }
         public UserDOT ApiUser { get; set; }

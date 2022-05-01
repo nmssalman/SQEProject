@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SQE.Models
 {
-    public class CreatePersonalSkilsDOT
+    public class CreatePersonalSkillsDOT
     {
         public int PersonalDetailsId { get; set; }
         [Required]
@@ -16,11 +16,11 @@ namespace SQE.Models
         [Required]
         public string ApiUserId { get; set; }
     }
-    public class PersonalSkilsDOT : CreatePersonalSkilsDOT
+    public class PersonalSkillsDOT : CreatePersonalSkillsDOT
     {
         public int Id { get; set; }
-        public Skils Skils { get; set; }
+        public Skills Skills { get; set; }
         public PersonalDetails PersonalDetails { get; set; }
-        public IList<Skils> Skilss { get; set; }
+        public IList<Skills> Skillss { get; set; }
     }
 }

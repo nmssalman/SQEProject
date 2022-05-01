@@ -45,15 +45,15 @@ namespace SQE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08e93b0d-0ae6-42c5-931b-ae0cab0906d8",
-                            ConcurrencyStamp = "693c2734-39bb-4812-bacf-ccf401fc14cf",
+                            Id = "59c04a2b-26f6-459f-9ef4-d1dd16b7862a",
+                            ConcurrencyStamp = "9460282b-af24-4401-a6bc-e74bba7f25d8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "13e6c58a-f565-4a6c-85d1-8959393c3ccd",
-                            ConcurrencyStamp = "6bebaca9-4294-43f7-affc-2810002e8168",
+                            Id = "98d24558-1ea5-4285-8101-5cec1c9cc5c0",
+                            ConcurrencyStamp = "dda31e90-b274-4560-9f50-f10d00a6161f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -274,7 +274,7 @@ namespace SQE.Migrations
                     b.ToTable("PersonalDetails");
                 });
 
-            modelBuilder.Entity("SQE.Data.Skils", b =>
+            modelBuilder.Entity("SQE.Data.Skills", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -293,7 +293,7 @@ namespace SQE.Migrations
 
                     b.HasIndex("ApiUserId");
 
-                    b.ToTable("Skils");
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -356,7 +356,7 @@ namespace SQE.Migrations
                     b.Navigation("ApiUser");
                 });
 
-            modelBuilder.Entity("SQE.Data.Skils", b =>
+            modelBuilder.Entity("SQE.Data.Skills", b =>
                 {
                     b.HasOne("SQE.Data.ApiUser", "ApiUser")
                         .WithMany()

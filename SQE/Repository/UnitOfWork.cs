@@ -10,8 +10,8 @@ namespace SQE.Repository
         private readonly DatabaseContext _context;
         private IGenericRepository<ApiUser> _users;
         private IGenericRepository<PersonalDetails> _personalDetails;
-        private IGenericRepository<Skils> _skils;
-        private IGenericRepository<PersonalSkils> _personalSkils;
+        private IGenericRepository<Skills> _skills;
+        private IGenericRepository<PersonalSkills> _personalSkills;
         public UnitOfWork(DatabaseContext context)
         {
             this._context = context;
@@ -20,8 +20,8 @@ namespace SQE.Repository
 
         public IGenericRepository<PersonalDetails> PersonalDetails => _personalDetails ??= new GenericRepository<PersonalDetails>(_context);
 
-        public IGenericRepository<Skils> Skils => _skils ??= new GenericRepository<Skils>(_context);
-        public IGenericRepository<PersonalSkils> PersonalSkils => _personalSkils ??= new GenericRepository<PersonalSkils>(_context);
+        public IGenericRepository<Skills> Skills => _skills ??= new GenericRepository<Skills>(_context);
+        public IGenericRepository<PersonalSkills> PersonalSkills => _personalSkills ??= new GenericRepository<PersonalSkills>(_context);
 
         public void Dispose()
         {

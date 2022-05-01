@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SQE.Data
 {
-    public class PersonalSkils
+    public class PersonalSkills
     {
         public int Id { get; set; }
         public bool ActiveStatus { get; set; }
@@ -15,7 +15,7 @@ namespace SQE.Data
         public PersonalDetails PersonalDetails { get; set; }
         [ForeignKey(nameof(Skils))]
         public int SkilsId { get; set; }
-        public Skils Skils { get; set; }
-        public IList<Skils> Skilss { get; set; }
+        public Skills Skils { get; set; }
+        public IList<Skills> Skilss { get; set; }
     }
 }

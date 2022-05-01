@@ -13,10 +13,10 @@ namespace SQE.Configuration
             CreateMap<PersonalDetails, CreatePersonalDetailsDOT>().ReverseMap();
             CreateMap<PersonalDetails, PersonalDetailsDOT>().ReverseMap();
             CreateMap<PersonalDetails, UpdatePersonalDetailsDOT>().ReverseMap();
-            CreateMap<Skils, SkilsDOT>().ReverseMap();
-            CreateMap<Skils, CreateSkilsDOT>().ReverseMap();
-            CreateMap<PersonalSkils, PersonalSkilsDOT>().ReverseMap();
-            CreateMap<PersonalSkils, CreatePersonalSkilsDOT>().ReverseMap();
+            CreateMap<Skills, SkillsDOT>().ReverseMap();
+            CreateMap<Skills, CreateSkillsDOT>().ReverseMap();
+            CreateMap<PersonalSkills, PersonalSkillsDOT>().ReverseMap();
+            CreateMap<PersonalSkills, CreatePersonalSkillsDOT>().ReverseMap();
         }
     }
 }
