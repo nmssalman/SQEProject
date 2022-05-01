@@ -17,6 +17,7 @@ namespace SQE.Data
         public string Occupation { get; set; }
         public string Linkedin { get; set; }
         public string Stackoverflow { get; set; }
+        public bool ActiveStatus { get; set; } 
         [ForeignKey(nameof(ApiUser))]
         public string ApiUserId { get; set; }
         public ApiUser ApiUser { get; set; } 

@@ -29,14 +29,34 @@ namespace SQE.Repository
             _db.RemoveRange(entities);
         }
 
-        public Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
+        public async Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = _db;
+            if(includes != null)
+            {
+                foreach (var includePropery in includes)
+                {
+                    query = query.Include(includePropery);
+                }
+            }
+            return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null, List<string> includes = null)
+        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderby = null, List<string> includes = null)
         {
-            throw new NotImplementedException();
+            IQueryable<T> query = _db;
+            if(expression != null)
+            {
+                query = query.Where(expression);
+            }
+            if (includes != null)
+            {
+                foreach (var includePropery in includes)
+                {
+                    query = query.Include(includePropery);
+                }
+            }
+            return await query.AsNoTracking().ToListAsync();
         }
 
         public async Task Insert(T entity)

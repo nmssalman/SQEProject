@@ -95,7 +95,7 @@ namespace SQE.Controllers
                 //var username
                 var userID = await _userManager.FindByNameAsync(userDOT.Email);
                 //return Ok(new { Status = "ok", Message = "Successfully Registered", Code = true });
-                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true, User_Id = userID });
+                return Accepted(new { Token = await _authManager.CreateToken(), Status = "ok", Message = "Login Success", Code = true, User_Id = userID.Id });
 
             }
             catch (Exception ex)

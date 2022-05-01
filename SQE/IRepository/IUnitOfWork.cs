@@ -9,6 +9,8 @@ namespace SQE.IRepository
     {
         IGenericRepository<ApiUser> Users { get; }
         IGenericRepository<PersonalDetails> PersonalDetails { get; }
+        IGenericRepository<Skils> Skils { get; }
+        IGenericRepository<PersonalSkils> PersonalSkils { get; }
         Task Save();
     }
 }

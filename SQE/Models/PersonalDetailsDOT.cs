@@ -31,12 +31,17 @@ namespace SQE.Models
         [Required]
         [StringLength(maximumLength: 250, ErrorMessage = "Linkedin is too long")]
         public string Stackoverflow { get; set; }
+        public bool? ActiveStatus { get; set; } = false;
         [Required]
         public string ApiUserId { get; set; }
     }
     public class PersonalDetailsDOT : CreatePersonalDetailsDOT
     {
         public int Id { get; set; }
-        public UserDOT UserDOT { get; set; }
+        public UserDOT ApiUser { get; set; }
+    }
+    public class UpdatePersonalDetailsDOT : CreatePersonalDetailsDOT
+    {
+
     }
 }

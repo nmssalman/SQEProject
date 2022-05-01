@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SQE.Data;
 
 namespace SQE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20220430194243_createdata1")]
+    partial class createdata1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,15 +47,15 @@ namespace SQE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "08e93b0d-0ae6-42c5-931b-ae0cab0906d8",
-                            ConcurrencyStamp = "693c2734-39bb-4812-bacf-ccf401fc14cf",
+                            Id = "1978ca8a-4ebc-44cb-82ce-ad16033371a5",
+                            ConcurrencyStamp = "49285bc2-51a0-4aff-af9c-57e4fe3f9768",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "13e6c58a-f565-4a6c-85d1-8959393c3ccd",
-                            ConcurrencyStamp = "6bebaca9-4294-43f7-affc-2810002e8168",
+                            Id = "ebeb5661-23bb-4f74-a898-6f5c38629f57",
+                            ConcurrencyStamp = "cefb5235-7115-4d6e-b3a1-9fe75ae71449",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -237,9 +239,6 @@ namespace SQE.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<bool>("ActiveStatus")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
@@ -272,28 +271,6 @@ namespace SQE.Migrations
                     b.HasIndex("ApiUserId");
 
                     b.ToTable("PersonalDetails");
-                });
-
-            modelBuilder.Entity("SQE.Data.Skils", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<bool>("ActiveStatus")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("ApiUserId")
-                        .HasColumnType("varchar(767)");
-
-                    b.Property<string>("SkilsName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApiUserId");
-
-                    b.ToTable("Skils");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,15 +325,6 @@ namespace SQE.Migrations
                 });
 
             modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
-                {
-                    b.HasOne("SQE.Data.ApiUser", "ApiUser")
-                        .WithMany()
-                        .HasForeignKey("ApiUserId");
-
-                    b.Navigation("ApiUser");
-                });
-
-            modelBuilder.Entity("SQE.Data.Skils", b =>
                 {
                     b.HasOne("SQE.Data.ApiUser", "ApiUser")
                         .WithMany()

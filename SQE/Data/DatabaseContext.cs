@@ -17,5 +17,6 @@ namespace SQE.Data
             builder.ApplyConfiguration(new RoleConfiguration());
         }
         public DbSet<PersonalDetails> PersonalDetails { get; set; }
+        public DbSet<Skils> Skils { get; set; }
     }
 }
