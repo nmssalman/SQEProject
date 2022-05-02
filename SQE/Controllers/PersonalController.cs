@@ -41,6 +41,7 @@ namespace SQE.Controllers
             this._authManager = authManager;
             this._unitOfWork = unitOfWork;
         }
+
         //[Authorize]
         [Authorize]
         [HttpGet("getPersonalDetails/{User_Id}")]
@@ -53,7 +54,7 @@ namespace SQE.Controllers
             _logger.LogInformation($"Get Personal Details Attepmt");
             try
             {
-                var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.ApiUserId == User_Id && x.ActiveStatus == true);
+                var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.ApiUserId == User_Id && x.ActiveStatus == true, new List<string> { "ApiUsers" } );
                 var result = _mapper.Map<PersonalDetailsDOT>(personalDetails);
                 return Ok(result);
             }
@@ -64,7 +65,74 @@ namespace SQE.Controllers
             }
 
         }
-            //[Authorize]
+        //[Authorize]
+        //[HttpGet("getCretedPersonalDetails1/{Id:int}")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> getCretedPersonalDetails1(int Id)
+        //{
+
+        //    _logger.LogInformation($"Get Personal Details Attepmt");
+        //    try
+        //    {
+        //        var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.Id == Id && x.ActiveStatus == true, new List<string> { "ApiUsers" });
+        //        var objApiUser = new ApiUser
+        //        {
+        //            Id = personalDetails.ApiUserId
+        //        };
+        //        var APIUser = await _userManager.FindByIdAsync(objApiUser.Id);
+        //        objApiUser.Email = APIUser.Email;
+        //        objApiUser.PhoneNumber = APIUser.PhoneNumber;
+        //        objApiUser.FirstName = APIUser.FirstName;
+        //        objApiUser.LastName = APIUser.LastName;
+        //        personalDetails.ApiUser = objApiUser;
+
+        //        var result = _mapper.Map<PersonalDetailsDOT>(personalDetails);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Something went wrong in the {nameof(getPersonalDetails)}");
+        //        return Problem($"Something went wrong in the {nameof(getPersonalDetails)}", statusCode: 500);
+        //    }
+
+        //}
+        //[Authorize]
+        //[HttpGet("{Id:int}", Name = "getCretedPersonalDetails")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> getCretedPersonalDetails(int Id)
+        //{
+
+
+        //    _logger.LogInformation($"Get Personal Details Attepmt");
+        //    try
+        //    {
+        //        var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.Id == Id && x.ActiveStatus == true, new List<string> { "ApiUsers" });
+        //        var objApiUser = new ApiUser
+        //        {
+        //            Id = personalDetails.ApiUserId
+        //        };
+        //        var APIUser = await _userManager.FindByIdAsync(objApiUser.Id);
+        //        objApiUser.Email = APIUser.Email;
+        //        objApiUser.PhoneNumber = APIUser.PhoneNumber;
+        //        objApiUser.FirstName = APIUser.FirstName;
+        //        objApiUser.LastName = APIUser.LastName;
+        //        personalDetails.ApiUser = objApiUser;
+
+        //        var result = _mapper.Map<PersonalDetailsDOT>(personalDetails);
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, $"Something went wrong in the {nameof(getPersonalDetails)}");
+        //        return Problem($"Something went wrong in the {nameof(getPersonalDetails)}", statusCode: 500);
+        //    }
+
+        //}
+        //[Authorize]
         [Authorize]
         [HttpPost("createPersonalDetails")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
@@ -87,7 +155,18 @@ namespace SQE.Controllers
                 var user = _mapper.Map<PersonalDetails>(createPersonalDetailsDOT);
                 await _unitOfWork.PersonalDetails.Insert(user);
                 await _unitOfWork.Save();
-                return Ok(new { Status = true, Message = "Successfully Registered"});
+                //var personalDetails = await _unitOfWork.PersonalDetails.Get(x => x.Id == user.Id && x.ActiveStatus == true, new List<string> { "ApiUsers" });
+                var objApiUser = new ApiUser
+                {
+                    Id = user.ApiUserId
+                };
+                await _userManager.FindByIdAsync(objApiUser.Id);
+
+                var personal = _mapper.Map<PersonalDetailsDOT>(user);
+                var result = personal;
+                return Ok(result);
+                //return CreatedAtRoute("getCretedPersonalDetails", new { Id = user.Id }, user);
+                //return Ok(new { Status = true, Message = "Successfully Registered"});
             }
             catch (Exception ex)
             {

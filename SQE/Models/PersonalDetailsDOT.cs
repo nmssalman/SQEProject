@@ -39,6 +39,7 @@ namespace SQE.Models
     {
         public int Id { get; set; }
         public UserDOT ApiUser { get; set; }
+        public IList<UserDOT> ApiUsers { get; set; }
     }
     public class UpdatePersonalDetailsDOT : CreatePersonalDetailsDOT
     {

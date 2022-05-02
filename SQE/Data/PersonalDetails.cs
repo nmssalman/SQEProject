@@ -20,6 +20,7 @@ namespace SQE.Data
         public bool ActiveStatus { get; set; } 
         [ForeignKey(nameof(ApiUser))]
         public string ApiUserId { get; set; }
-        public ApiUser ApiUser { get; set; } 
+        public ApiUser ApiUser { get; set; }
+        public IList<ApiUser> ApiUsers { get; set; }
     }
 }
