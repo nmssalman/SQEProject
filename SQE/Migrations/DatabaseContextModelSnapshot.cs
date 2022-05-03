@@ -45,15 +45,15 @@ namespace SQE.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "781b5a6d-d1e8-45cb-bfd4-2eba81e0ad01",
-                            ConcurrencyStamp = "d03ac622-2e69-4181-84f7-24b529f29f54",
+                            Id = "2499f484-ebd7-4b68-b080-9430925dbde9",
+                            ConcurrencyStamp = "a73eee28-99a4-4ba7-b5be-a047321987fd",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "7e0c0960-8015-4396-9b2e-39fc3c8c1888",
-                            ConcurrencyStamp = "ec29e37d-ac44-4dd6-95fd-c4ca92859ecc",
+                            Id = "a2d43ace-d834-4d31-a2b1-0fae0214cfab",
+                            ConcurrencyStamp = "6b0a99e3-cf0e-47e7-a095-4a81419a0756",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -236,6 +236,68 @@ namespace SQE.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("End_Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Institute")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Major")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Start_Date")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("Education");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Company_Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Years_of_Experience")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("Experience");
+                });
+
             modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -257,6 +319,12 @@ namespace SQE.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<int?>("EducationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ExperienceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Linkedin")
                         .HasColumnType("text");
 
@@ -265,6 +333,9 @@ namespace SQE.Migrations
 
                     b.Property<string>("Stackoverflow")
                         .HasColumnType("text");
+
+                    b.Property<int?>("UserProfilePictureId")
+                        .HasColumnType("int");
 
                     b.Property<string>("city")
                         .HasColumnType("text");
@@ -275,6 +346,12 @@ namespace SQE.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApiUserId");
+
+                    b.HasIndex("EducationId");
+
+                    b.HasIndex("ExperienceId");
+
+                    b.HasIndex("UserProfilePictureId");
 
                     b.ToTable("PersonalDetails");
                 });
@@ -299,6 +376,28 @@ namespace SQE.Migrations
                     b.HasIndex("ApiUserId");
 
                     b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Image_Base64_String")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("UserProfilePictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -359,11 +458,45 @@ namespace SQE.Migrations
                         .HasForeignKey("PersonalDetailsId");
                 });
 
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
             modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
                 {
                     b.HasOne("SQE.Data.ApiUser", "ApiUser")
                         .WithMany()
                         .HasForeignKey("ApiUserId");
+
+                    b.HasOne("SQE.Data.Education", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("EducationId");
+
+                    b.HasOne("SQE.Data.Experience", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("ExperienceId");
+
+                    b.HasOne("SQE.Data.UserProfilePicture", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("UserProfilePictureId");
 
                     b.Navigation("ApiUser");
                 });
@@ -377,9 +510,35 @@ namespace SQE.Migrations
                     b.Navigation("ApiUser");
                 });
 
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
+                });
+
             modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
                 {
                     b.Navigation("ApiUsers");
+                });
+
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
                 });
 #pragma warning restore 612, 618
         }

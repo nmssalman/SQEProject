@@ -11,6 +11,9 @@ namespace SQE.IRepository
         IGenericRepository<PersonalDetails> PersonalDetails { get; }
         IGenericRepository<Skills> Skills { get; }
         IGenericRepository<PersonalSkills> PersonalSkills { get; }
+        IGenericRepository<Education> Educations { get; }
+        IGenericRepository<Experience> Experiences { get; }
+        IGenericRepository<UserProfilePicture> ProfilePicture { get; }
         Task Save();
     }
 }

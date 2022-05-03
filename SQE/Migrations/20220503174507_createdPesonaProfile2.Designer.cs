@@ -9,8 +9,8 @@ using SQE.Data;
 namespace SQE.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220429161803_DatabaseCreated")]
-    partial class DatabaseCreated
+    [Migration("20220503174507_createdPesonaProfile2")]
+    partial class createdPesonaProfile2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,22 @@ namespace SQE.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2499f484-ebd7-4b68-b080-9430925dbde9",
+                            ConcurrencyStamp = "a73eee28-99a4-4ba7-b5be-a047321987fd",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "a2d43ace-d834-4d31-a2b1-0fae0214cfab",
+                            ConcurrencyStamp = "6b0a99e3-cf0e-47e7-a095-4a81419a0756",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -189,6 +205,9 @@ namespace SQE.Migrations
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
 
+                    b.Property<int?>("PersonalDetailsId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
@@ -214,7 +233,173 @@ namespace SQE.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("PersonalDetailsId");
+
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("End_Date")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Institute")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Major")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("Start_Date")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("Education");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Company_Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("Years_of_Experience")
+                        .HasColumnType("double");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("Experience");
+                });
+
+            modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ApiUserId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("EducationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ExperienceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Linkedin")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Occupation")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Stackoverflow")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserProfilePictureId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("city")
+                        .HasColumnType("text");
+
+                    b.Property<string>("country")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.HasIndex("EducationId");
+
+                    b.HasIndex("ExperienceId");
+
+                    b.HasIndex("UserProfilePictureId");
+
+                    b.ToTable("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.Skills", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ApiUserId")
+                        .HasColumnType("varchar(767)");
+
+                    b.Property<string>("SkilsName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiUserId");
+
+                    b.ToTable("Skills");
+                });
+
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ActiveStatus")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Image_Base64_String")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PersonalDetailsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonalDetailsId");
+
+                    b.ToTable("UserProfilePictures");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -266,6 +451,96 @@ namespace SQE.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SQE.Data.ApiUser", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", null)
+                        .WithMany("ApiUsers")
+                        .HasForeignKey("PersonalDetailsId");
+                });
+
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
+                {
+                    b.HasOne("SQE.Data.ApiUser", "ApiUser")
+                        .WithMany()
+                        .HasForeignKey("ApiUserId");
+
+                    b.HasOne("SQE.Data.Education", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("EducationId");
+
+                    b.HasOne("SQE.Data.Experience", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("ExperienceId");
+
+                    b.HasOne("SQE.Data.UserProfilePicture", null)
+                        .WithMany("PersonalDetailsList")
+                        .HasForeignKey("UserProfilePictureId");
+
+                    b.Navigation("ApiUser");
+                });
+
+            modelBuilder.Entity("SQE.Data.Skills", b =>
+                {
+                    b.HasOne("SQE.Data.ApiUser", "ApiUser")
+                        .WithMany()
+                        .HasForeignKey("ApiUserId");
+
+                    b.Navigation("ApiUser");
+                });
+
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.HasOne("SQE.Data.PersonalDetails", "PersonalDetails")
+                        .WithMany()
+                        .HasForeignKey("PersonalDetailsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PersonalDetails");
+                });
+
+            modelBuilder.Entity("SQE.Data.Education", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
+                });
+
+            modelBuilder.Entity("SQE.Data.Experience", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
+                });
+
+            modelBuilder.Entity("SQE.Data.PersonalDetails", b =>
+                {
+                    b.Navigation("ApiUsers");
+                });
+
+            modelBuilder.Entity("SQE.Data.UserProfilePicture", b =>
+                {
+                    b.Navigation("PersonalDetailsList");
                 });
 #pragma warning restore 612, 618
         }

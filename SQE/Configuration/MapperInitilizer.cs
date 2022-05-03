@@ -17,6 +17,12 @@ namespace SQE.Configuration
             CreateMap<Skills, CreateSkillsDOT>().ReverseMap();
             CreateMap<PersonalSkills, PersonalSkillsDOT>().ReverseMap();
             CreateMap<PersonalSkills, CreatePersonalSkillsDOT>().ReverseMap();
+            CreateMap<Education, EducationDTO>().ReverseMap();
+            CreateMap<Education, CreateEducationDTO>().ReverseMap();
+            CreateMap<Experience, CreateExperienceDOT>().ReverseMap();
+            CreateMap<Experience, ExperienceDOT>().ReverseMap();
+            CreateMap<UserProfilePicture, ProfilePictureDTO>().ReverseMap();
+            CreateMap<UserProfilePicture, CreateProfilePictureDTO>().ReverseMap();
         }
     }
 }

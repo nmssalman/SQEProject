@@ -22,5 +22,10 @@ namespace SQE.Data
         public string ApiUserId { get; set; }
         public ApiUser ApiUser { get; set; }
         public IList<ApiUser> ApiUsers { get; set; }
+
+        //[ForeignKey(nameof(UserProfilePictures))]
+        //public int UserProfilePictureID { get; set; }
+        //public UserProfilePicture UserProfilePictures { get; set; }
+        //public IList<UserProfilePicture> UserProfilePictureList { get; set; }
     }
 }

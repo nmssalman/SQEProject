@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace SQE.Data
+{
+    public class Education
+    {
+        public int Id { get; set; }
+        public string Major { get; set; }
+        public string Institute { get; set; }
+        public string Description { get; set; }
+        public DateTime? Start_Date { get; set; }
+        public DateTime? End_Date { get; set; }
+        public bool ActiveStatus { get; set; }
+        [ForeignKey(nameof(PersonalDetails))]
+        public int PersonalDetailsId { get; set; }
+        public PersonalDetails PersonalDetails { get; set; }
+        public IList<PersonalDetails> PersonalDetailsList { get; set; }
+    }
+}
