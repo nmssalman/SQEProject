@@ -22,4 +22,9 @@ namespace SQE.Models
         public ICollection<string> Roles { get; set; }
 
     }
+    public class ForgotPasswordDOT 
+    {
+        public string Email { get; set; }
+
+    }
 }

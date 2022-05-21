@@ -35,6 +35,43 @@ namespace SQE.Controllers
             this._authManager = authManager;
         }
         [HttpPost]
+        [Route("forgotPassword")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDOT userDOT)
+        {
+            _logger.LogInformation($"Registration Attepmt for {userDOT.Email}");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                //var user = _mapper.Map<ApiUser>(userDOT);
+                //user.UserName = userDOT.Email;
+                //var result = await _userManager.CreateAsync(user, userDOT.Password);
+                //if (!result.Succeeded)
+                //{
+                //    foreach (var item in result.Errors)
+                //    {
+                //        ModelState.AddModelError(item.Code, item.Description);
+                //    }
+                //    //return BadRequest(ModelState);
+                //    return BadRequest(new { Status = false, Message = ModelState });
+                //}
+                //await _userManager.AddToRolesAsync(user, userDOT.Roles);
+                //return Accepted();
+                return Accepted(new { Status = true, Message = "Forgot password link has been set to registerd email" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(Register)}");
+                return Problem($"Something went wrong in the {nameof(Register)}", statusCode: 500);
+                //return Problem(new { Status = "ok", Message = $"Something went wrong in the {nameof(Register)}", Code = false });
+            }
+        }
+        [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
