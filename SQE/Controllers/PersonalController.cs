@@ -614,5 +614,98 @@ namespace SQE.Controllers
             }
 
         }
+        [Authorize]
+        [HttpPost("createLanguage")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> createLanguage([FromBody] ExperienceDOT experienceDOT)
+        {
+            //var username = HttpContext.User.Identity.Name;
+            //var _user = await _userManager.FindByNameAsync(username);
+            experienceDOT.ActiveStatus = true;
+
+
+            _logger.LogInformation($"Create Personal Details Attepmt");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { Status = false, Message = ModelState });
+            }
+            try
+            {
+                var experience = _mapper.Map<Experience>(experienceDOT);
+                await _unitOfWork.Experiences.Insert(experience);
+                await _unitOfWork.Save();
+                var experienceDetails = await _unitOfWork.Experiences.Get(x => x.PersonalDetailsId == experience.PersonalDetailsId && x.ActiveStatus == true, new List<string> { "PersonalDetailsList" });
+                //var objApiUser = new ApiUser
+                //{
+                //    Id = user.ApiUserId
+                //};
+                //await _userManager.FindByIdAsync(objApiUser.Id);
+
+                var result = _mapper.Map<ExperienceDOT>(experienceDetails);
+                return Ok(result);
+                //return CreatedAtRoute("getCretedPersonalDetails", new { Id = user.Id }, user);
+                //return Ok(new { Status = true, Message = "Successfully Registered"});
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(createPersonalDetails)}");
+                return Problem($"Something went wrong in the {nameof(createPersonalDetails)}", statusCode: 500);
+            }
+        }
+        [Authorize]
+        [HttpPut("deleteLanguage/{Experience_Id:int}")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> deleteLanguage(int Experience_Id)
+        {
+            _logger.LogInformation($"delete Experience Details Attepmt");
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var personalDetails = await _unitOfWork.Experiences.Get(x => x.Id == Experience_Id && x.ActiveStatus == true);
+                if (personalDetails == null)
+                {
+                    return BadRequest(new { Status = false, Message = "Please create education details first" });
+                }
+                personalDetails.ActiveStatus = false;
+                //_mapper.Map(updatePersonalDetailsDOT, personalInfor);
+                _unitOfWork.Experiences.Update(personalDetails);
+                await _unitOfWork.Save();
+                return Ok(new { Status = true, Message = "Successfully Deleted" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(deletePersonalDetails)}");
+                return Problem($"Something went wrong in the {nameof(deletePersonalDetails)}", statusCode: 500);
+            }
+        }
+        [Authorize]
+        [HttpGet("getLanguage/{PersonalDetails_Id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> getLanguage(int PersonalDetails_Id)
+        {
+
+            _logger.LogInformation($"Get Education Details Attepmt");
+            try
+            {
+                var personalDetails = await _unitOfWork.Experiences.Get(x => x.PersonalDetailsId == PersonalDetails_Id && x.ActiveStatus == true, new List<string> { "PersonalDetailsList" });
+                var result = _mapper.Map<ExperienceDOT>(personalDetails);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(getPersonalDetails)}");
+                return Problem($"Something went wrong in the {nameof(getPersonalDetails)}", statusCode: 500);
+            }
+
+        }
     }
 }
